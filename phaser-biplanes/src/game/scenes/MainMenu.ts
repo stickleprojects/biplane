@@ -16,8 +16,9 @@ export class MainMenu extends Scene {
 
     this.s = this.add
       .sprite(300, 200, "yellowbiplane", 0)
-      .setScale(4)
-      .setOrigin(0, 0);
+      .setScale(3)
+
+      .setOrigin(0.5, 0.5);
 
     this.s.play({ key: "right1", repeat: -1 });
 
@@ -37,5 +38,24 @@ export class MainMenu extends Scene {
     this.input.once("pointerdown", () => {
       this.scene.start("Game");
     });
+  }
+
+  update() {
+    if (
+      this.input.keyboard?.checkDown(
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+        0
+      )
+    ) {
+      this.s.setRotation(this.s.rotation + 0.1);
+    }
+    if (
+      this.input.keyboard?.checkDown(
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+        0
+      )
+    ) {
+      this.s.setRotation(this.s.rotation - 0.1);
+    }
   }
 }
