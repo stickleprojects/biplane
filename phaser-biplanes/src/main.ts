@@ -1,20 +1,7 @@
-import * as Phaser from 'phaser'
-import BootScene from './scenes/BootScene'
-import PlayScene from './scenes/PlayScene'
+import StartGame from './game/main';
 
-declare global {
-  interface Window {
-    game: Phaser.Game
-  }
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-const config: GameConfig = {
-  type: Phaser.AUTO,
-  parent: 'app',
-  width: 800,
-  height: 600,
-  scene: [BootScene, PlayScene],
-}
+    StartGame('game-container');
 
-const game = new Phaser.Game(config)
-window.game = game
+});
