@@ -71,6 +71,11 @@ export class Game extends Scene {
         if (!(plane instanceof Player)) {
           return false;
         }
+        if (bullet.Parent === plane) {
+          // Prevent collision with itself
+          return false;
+        }
+
         // Handle collision between bullet and plane
         console.log("Bullet hit a plane:", plane);
         bullet.destroy(); // Destroy the bullet on collision

@@ -1,22 +1,12 @@
 import Phaser, { Input } from "phaser";
 import Bullet from "./bullet";
+import Plane from "./plane";
 
-class Player extends Phaser.GameObjects.Sprite {
+class Player extends Plane {
   private rotate_left: Phaser.Input.Keyboard.Key;
   private rotate_right: Phaser.Input.Keyboard.Key;
   private firebutton: Phaser.Input.Keyboard.Key;
 
-  private plane_speed: number = 0.2; // Speed of the plane
-  private color: number;
-  private bulletGroup: Phaser.Physics.Arcade.Group;
-
-  public get BulletGroup(): Phaser.Physics.Arcade.Group {
-    return this.bulletGroup;
-  }
-
-  public get Color(): number {
-    return this.color;
-  }
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -24,19 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
     color: number,
     bulletGroup: Phaser.Physics.Arcade.Group
   ) {
-    super(scene, x, y, "yellowbiplane", 0);
-    this.setScale(3).setOrigin(0.5, 0.5);
-    this.color = color;
-    this.setTint(this.color);
-
-    this.bulletGroup = bulletGroup;
-    this.play({ key: "right1", repeat: -1 });
-
-    scene.add.existing(this);
-    scene.physics.add.existing(this, false);
-
-    const body = this.body as Phaser.Physics.Arcade.Body;
-    body.setAllowGravity(false);
+    super(scene, x, y, color, bulletGroup);
   }
 
   fire() {
@@ -94,21 +72,7 @@ class Player extends Phaser.GameObjects.Sprite {
     ) {
       this.setRotation(this.rotation - 0.1);
     }
-
-    const speed = this.plane_speed;
-    var b = this.body as Phaser.Physics.Arcade.Body;
-    const angle = b.rotation; // Get the angle in degrees
-
-    // Convert angle to radians
-    const rad = Phaser.Math.DegToRad(angle);
-
-    // Calculate velocity components
-    const vx = Math.cos(rad) * speed;
-    const vy = Math.sin(rad) * speed;
-
-    // Apply velocity to the sprite's body
-    b.setVelocity(vx, vy);
-    this.scene.physics.world.wrap(this, 0);
+    super.update(time, delta, input);
   }
 }
 

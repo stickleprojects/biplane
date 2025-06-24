@@ -5,6 +5,11 @@ class Bullet extends Phaser.GameObjects.Sprite {
    *
    */
   private movementTween: Phaser.Tweens.Tween;
+  private parent: Player;
+
+  public get Parent(): Player {
+    return this.parent;
+  }
 
   constructor(
     parent: Player,
@@ -14,6 +19,7 @@ class Bullet extends Phaser.GameObjects.Sprite {
   ) {
     super(parent.scene, x, y, "bullet", 0);
 
+    this.parent = parent;
     this.setTint(parent.Color);
 
     this.scene.add.existing(this);
