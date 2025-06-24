@@ -7,10 +7,17 @@ class Player extends Phaser.GameObjects.Sprite {
   private firebutton: Phaser.Input.Keyboard.Key;
 
   private plane_speed: number = 0.2; // Speed of the plane
+  private color: number;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  public get Color(): number {
+    return this.color;
+  }
+  constructor(scene: Phaser.Scene, x: number, y: number, color: number) {
     super(scene, x, y, "yellowbiplane", 0);
     this.setScale(3).setOrigin(0.5, 0.5);
+    this.color = color;
+    this.setTint(this.color);
+
     this.play({ key: "right1", repeat: -1 });
 
     scene.add.existing(this);

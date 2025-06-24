@@ -12,6 +12,8 @@ class Bullet extends Phaser.GameObjects.Sprite {
   ) {
     super(parent.scene, x, y, "bullet", 0);
 
+    this.setTint(parent.Color);
+
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 

@@ -5,6 +5,7 @@ export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
   background: Phaser.GameObjects.Image;
   player1: Player;
+  npc: Player;
   instructions: GameObjects.Text;
 
   initPhysics() {
@@ -37,10 +38,12 @@ export class Game extends Scene {
       100,
       "Use left/right arrows to steer the plane.\nClick to end the game."
     );
-    this.player1 = new Player(this, 300, 200);
+    this.player1 = new Player(this, 300, 200, 0x00a0ff);
+    this.npc = new Player(this, 300, 200, 0xff0000);
   }
   update(time: number, delta: number) {
     this.physics.world.step(delta);
     this.player1.update(time, delta, this.input);
+    this.npc.update(time, delta, this.input);
   }
 }
