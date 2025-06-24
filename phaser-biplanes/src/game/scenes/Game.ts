@@ -22,13 +22,29 @@ export class Game extends Scene {
     super("Game");
   }
 
+  spawnNPC() {
+    const y = Phaser.Math.Between(100, 668);
+    this.npc = new Player(this, 100, y, 0xff0000, this.bulletGroup);
+
+    this.planeGroup.add(this.npc);
+  }
   bindEvents() {
     this.events.on("playerFired", (player: Player) => {
-      console.log("Player fired:", player);
+      //console.log("Player fired:", player);
       // Implement firing logic here
+    });
+
+    this.events.on("planeDestroyed", (player: Player) => {
+      if (player === this.npc) {
+        console.log("NPC plane destroyed, respawning...");
+        this.spawnNPC();
+      }
+      // Implement player destruction logic here
     });
   }
   create() {
+    this.bindEvents();
+
     this.camera = this.cameras.main;
     this.camera.setBackgroundColor(0x0000a0);
 
@@ -58,8 +74,8 @@ export class Game extends Scene {
     this.player1 = new Player(this, 300, 200, 0x00a0ff, this.bulletGroup);
 
     this.planeGroup.add(this.player1);
-    this.npc = new Player(this, 300, 200, 0xff0000, this.bulletGroup);
-    this.planeGroup.add(this.npc);
+
+    this.spawnNPC();
 
     this.physics.add.collider(
       this.bulletGroup,
@@ -83,7 +99,7 @@ export class Game extends Scene {
           // If the plane is a player, you can handle player damage or other logic here
           console.log("Player hit by bullet!");
         } else {
-          plane.destroy();
+          plane.kill();
         }
       }
     );

@@ -35,15 +35,10 @@ class Plane extends Phaser.GameObjects.Sprite {
     body.setAllowGravity(false);
   }
 
-  fire() {
-    // Implement firing logic here
-    console.log("Firing!");
-    // spawn a bullet or perform an action
-
-    const bullet = new Bullet(this, this.x, this.y);
-    this.bulletGroup.add(bullet);
+  kill() {
+    this.scene.events.emit("planeDestroyed", this);
+    super.destroy();
   }
-
   update(time: number, delta: number, input: Input.InputPlugin): void {
     if (!this.body) {
       return;
