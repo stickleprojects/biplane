@@ -1,5 +1,6 @@
 import { GameObjects, Scene } from "phaser";
 import Player from "../entities/player";
+import Bullet from "../entities/bullet";
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -7,6 +8,9 @@ export class Game extends Scene {
   player1: Player;
   npc: Player;
   instructions: GameObjects.Text;
+
+  bulletGroup: Phaser.Physics.Arcade.Group;
+  planeGroup: Phaser.Physics.Arcade.Group;
 
   initPhysics() {
     this.physics.world.setBounds(0, 0, 1024, 768);
@@ -38,8 +42,46 @@ export class Game extends Scene {
       100,
       "Use left/right arrows to steer the plane.\nClick to end the game."
     );
-    this.player1 = new Player(this, 300, 200, 0x00a0ff);
-    this.npc = new Player(this, 300, 200, 0xff0000);
+
+    this.bulletGroup = this.physics.add.group({
+      classType: Bullet,
+      defaultKey: "bullet",
+      maxSize: 10,
+    });
+
+    this.planeGroup = this.physics.add.group({
+      classType: Player,
+      defaultKey: "plane",
+      maxSize: 10,
+    });
+
+    this.player1 = new Player(this, 300, 200, 0x00a0ff, this.bulletGroup);
+
+    this.planeGroup.add(this.player1);
+    this.npc = new Player(this, 300, 200, 0xff0000, this.bulletGroup);
+    this.planeGroup.add(this.npc);
+
+    this.physics.add.collider(
+      this.bulletGroup,
+      this.planeGroup,
+      (bullet, plane) => {
+        if (!(bullet instanceof Bullet)) {
+          return false;
+        }
+        if (!(plane instanceof Player)) {
+          return false;
+        }
+        // Handle collision between bullet and plane
+        console.log("Bullet hit a plane:", plane);
+        bullet.destroy(); // Destroy the bullet on collision
+        if (plane == this.player1) {
+          // If the plane is a player, you can handle player damage or other logic here
+          console.log("Player hit by bullet!");
+        } else {
+          plane.destroy();
+        }
+      }
+    );
   }
   update(time: number, delta: number) {
     this.physics.world.step(delta);

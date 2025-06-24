@@ -4,6 +4,8 @@ class Bullet extends Phaser.GameObjects.Sprite {
   /**
    *
    */
+  private movementTween: Phaser.Tweens.Tween;
+
   constructor(
     parent: Player,
 
@@ -30,7 +32,7 @@ class Bullet extends Phaser.GameObjects.Sprite {
       parent.y + Math.sin(this.rotation) * 20 - 10
     );
 
-    this.scene.tweens.add({
+    this.movementTween = this.scene.tweens.add({
       targets: this,
       x: destinationX,
       y: destinationY,
@@ -42,6 +44,12 @@ class Bullet extends Phaser.GameObjects.Sprite {
     });
 
     this.scene.events.emit("bulletFired", this);
+  }
+  ondestroy() {
+    if (this.movementTween) {
+      this.movementTween.stop();
+    }
+    this.scene.events.emit("bulletDestroyed", this);
   }
 }
 export default Bullet;

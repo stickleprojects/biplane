@@ -8,16 +8,28 @@ class Player extends Phaser.GameObjects.Sprite {
 
   private plane_speed: number = 0.2; // Speed of the plane
   private color: number;
+  private bulletGroup: Phaser.Physics.Arcade.Group;
+
+  public get BulletGroup(): Phaser.Physics.Arcade.Group {
+    return this.bulletGroup;
+  }
 
   public get Color(): number {
     return this.color;
   }
-  constructor(scene: Phaser.Scene, x: number, y: number, color: number) {
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    color: number,
+    bulletGroup: Phaser.Physics.Arcade.Group
+  ) {
     super(scene, x, y, "yellowbiplane", 0);
     this.setScale(3).setOrigin(0.5, 0.5);
     this.color = color;
     this.setTint(this.color);
 
+    this.bulletGroup = bulletGroup;
     this.play({ key: "right1", repeat: -1 });
 
     scene.add.existing(this);
@@ -33,6 +45,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // spawn a bullet or perform an action
 
     const bullet = new Bullet(this, this.x, this.y);
+    this.bulletGroup.add(bullet);
   }
   bindKeys(input: Input.InputPlugin) {
     if (input == null) {
@@ -59,6 +72,10 @@ class Player extends Phaser.GameObjects.Sprite {
     }
   }
   update(time: number, delta: number, input: Input.InputPlugin): void {
+    if (!this.body) {
+      return;
+    }
+
     this.bindKeys(input);
 
     if (input.keyboard?.checkDown(this.firebutton, 200)) {
