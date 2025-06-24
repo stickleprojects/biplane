@@ -3,6 +3,7 @@ import Phaser, { Input } from "phaser";
 class Player extends Phaser.GameObjects.Sprite {
   private rotate_left: Phaser.Input.Keyboard.Key;
   private rotate_right: Phaser.Input.Keyboard.Key;
+  private firebutton: Phaser.Input.Keyboard.Key;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "yellowbiplane", 0);
@@ -16,6 +17,10 @@ class Player extends Phaser.GameObjects.Sprite {
     body.setAllowGravity(false);
   }
 
+  fire() {
+    // Implement firing logic here
+    console.log("Firing!");
+  }
   bindKeys(input: Input.InputPlugin) {
     if (input == null) {
       throw new Error("Input plugin is not defined");
@@ -24,6 +29,11 @@ class Player extends Phaser.GameObjects.Sprite {
       throw new Error("Keyboard input is not defined");
     }
 
+    if (this.firebutton == null) {
+      this.firebutton = input.keyboard.addKey(
+        Phaser.Input.Keyboard.KeyCodes.SPACE
+      );
+    }
     if (this.rotate_left == null) {
       this.rotate_left = input.keyboard.addKey(
         Phaser.Input.Keyboard.KeyCodes.LEFT
@@ -37,6 +47,11 @@ class Player extends Phaser.GameObjects.Sprite {
   }
   update(time: number, delta: number, input: Input.InputPlugin): void {
     this.bindKeys(input);
+
+    if (input.keyboard?.checkDown(this.firebutton, 0)) {
+      this.fire();
+      this.scene.events.emit("playerFired", this);
+    }
 
     if (input.keyboard?.checkDown(this.rotate_left, 0)) {
       this.setRotation(this.rotation + 0.1);

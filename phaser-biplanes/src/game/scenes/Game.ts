@@ -17,6 +17,12 @@ export class Game extends Scene {
     super("Game");
   }
 
+  bindEvents() {
+    this.events.on("playerFired", (player: Player) => {
+      console.log("Player fired:", player);
+      // Implement firing logic here
+    });
+  }
   create() {
     this.camera = this.cameras.main;
     this.camera.setBackgroundColor(0x0000a0);
