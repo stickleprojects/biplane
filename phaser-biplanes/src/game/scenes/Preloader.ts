@@ -29,6 +29,7 @@ export class Preloader extends Scene {
       "assets/yellowbiplane.png",
       "assets/yellowbiplane.json"
     );
+    this.load.aseprite("bullet", "assets/bullet.png", "assets/bullet.json");
   }
 
   create() {
