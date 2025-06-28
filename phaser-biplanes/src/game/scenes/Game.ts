@@ -31,8 +31,6 @@ export class Game extends Scene {
     if (this.npc) {
       console.warn("NPC already exists, not spawning a new one.");
       this.npc.setPosition(100, Phaser.Math.Between(100, 400));
-      this.npc.setVisible(true); // Ensure NPC is visible
-      this.npc.setActive(true); // Ensure NPC is active
       this.npc.reset(); // Reset NPC state if needed
 
       return;
@@ -56,11 +54,12 @@ export class Game extends Scene {
       console.log("Plane destroyed:", player);
       if (player === this.npc) {
         console.log("NPC plane destroyed, respawning...");
+
         this.spawnNPC();
       }
       if (player === this.player1) {
         console.log("Player plane destroyed");
-        //this.player1.kill();
+        this.spawnPlayer();
       }
     });
   }
@@ -100,19 +99,23 @@ export class Game extends Scene {
     this.createGround();
 
     this.physics.add.collider(this.npc, this.player1, (player, npc) => {
+      if (player.dying || npc.dying) {
+        return; // Prevent further collisions if either plane is dying
+      }
       this.player1.addKill(this.npc); // Add the plane to the player's kill count
       this.npc.addKill(this.player1); // Add the plane to the player's kill count
 
-      this.spawnNPC();
-      this.spawnPlayer();
+      this.npc.kill();
+      this.player1.kill(); // Kill the player plane
     });
     this.physics.add.collider(this.bulletGroup, this.npc, (plane, bullet) => {
       console.log("Bullet hit NPC plane:", bullet, plane);
 
       bullet.destroy(); // Destroy the bullet on collision
 
-      this.player1.addKill(plane);
-      this.spawnNPC();
+      this.player1.addKill(this.npc);
+
+      this.npc.kill(); // Stop the NPC plane
     });
   }
   private spawnPlayer() {
@@ -138,10 +141,11 @@ export class Game extends Scene {
     groundBody.setAllowGravity(false);
 
     this.physics.add.collider(this.player1, ground, (plane) => {
-      console.log("Plane hit the ground:", plane);
+      console.log("PLayer hit the ground:", plane);
 
       this.npc.addKill(plane); // Add the plane to the NPC's kill count
-      this.spawnPlayer();
+
+      this.player1.kill();
     });
     this.physics.add.collider(this.bulletGroup, ground, (bullet) => {
       if (bullet instanceof Bullet) {

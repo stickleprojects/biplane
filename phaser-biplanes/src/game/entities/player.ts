@@ -7,10 +7,6 @@ class Player extends Plane {
   private firebutton: Phaser.Input.Keyboard.Key;
   private rotate_left: Phaser.Input.Keyboard.Key;
 
-  private score: number = 0;
-  get Score() {
-    return this.score;
-  }
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -21,9 +17,6 @@ class Player extends Plane {
     super(scene, x, y, color, bulletGroup);
   }
 
-  reset() {
-    this.setRotation(0);
-  }
   addKill(
     plane: (
       | Phaser.Physics.Arcade.Body

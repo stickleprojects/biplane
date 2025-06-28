@@ -5,6 +5,11 @@ class Plane extends Phaser.GameObjects.Sprite {
   protected plane_speed: number = 0.2; // Speed of the plane
   protected color: number;
   protected bulletGroup: Phaser.Physics.Arcade.Group;
+  dying: boolean;
+  private score: number = 0;
+  get Score() {
+    return this.score;
+  }
 
   public get BulletGroup(): Phaser.Physics.Arcade.Group {
     return this.bulletGroup;
@@ -35,8 +40,30 @@ class Plane extends Phaser.GameObjects.Sprite {
     body.setAllowGravity(false);
   }
 
+  reset() {
+    this.dying = false; // Reset dying state
+    this.setRotation(0);
+    this.anims.play("right1", true);
+    this.setVisible(true); // Ensure NPC is visible
+    this.setActive(true); // Ensure NPC is active
+    this.plane_speed = 0.2; // Reset speed
+    this.score = 0;
+    const body = this.body as Phaser.Physics.Arcade.Body;
+    body.setCollisionCategory(1); //enable collision
+    body.setEnable(true); // Deactivate the body to stop physics interactions
+  }
+  stop() {
+    this.plane_speed = 0; // Stop the plane
+  }
   kill() {
-    this.scene.events.emit("planeDestroyed", this);
+    this.stop();
+    this.dying = true; // Set dying state to true
+    const body = this.body as Phaser.Physics.Arcade.Body;
+    body.setCollisionCategory(0); //enable collision
+    body.setEnable(true); // Deactivate the body to stop physics interactions
+    this.anims.play("explosion", true).once("animationcomplete", () => {
+      this.scene.events.emit("planeDestroyed", this);
+    }); // Play explosion animation
   }
   update(time: number, delta: number, input: Input.InputPlugin): void {
     if (!this.body) {
