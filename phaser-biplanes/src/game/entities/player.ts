@@ -3,10 +3,14 @@ import Bullet from "./bullet";
 import Plane from "./plane";
 
 class Player extends Plane {
-  private rotate_left: Phaser.Input.Keyboard.Key;
   private rotate_right: Phaser.Input.Keyboard.Key;
   private firebutton: Phaser.Input.Keyboard.Key;
+  private rotate_left: Phaser.Input.Keyboard.Key;
 
+  private score: number = 0;
+  get Score() {
+    return this.score;
+  }
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -15,8 +19,13 @@ class Player extends Plane {
     bulletGroup: Phaser.Physics.Arcade.Group
   ) {
     super(scene, x, y, color, bulletGroup);
+
   }
 
+  addKill(plane: (Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) & Player) {
+    this.score += 1;
+    this.scene.events.emit("playerScoreUpdated", this);
+  }
   fire() {
     // Implement firing logic here
     console.log("Firing!");
