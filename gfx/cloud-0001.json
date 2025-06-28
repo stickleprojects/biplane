@@ -1,0 +1,59 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 121, "h": 101 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 1, "w": 121, "h": 101 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 121, "y": 0, "w": 123, "h": 102 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 1, "w": 123, "h": 102 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 244, "y": 0, "w": 126, "h": 104 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 1, "w": 126, "h": 104 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 370, "y": 0, "w": 125, "h": 101 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 3, "w": 125, "h": 101 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   },
+   "4": {
+    "frame": { "x": 495, "y": 0, "w": 119, "h": 97 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 5, "y": 6, "w": 119, "h": 97 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.14.3-x64",
+  "image": "cloud-0001.png",
+  "format": "RGBA8888",
+  "size": { "w": 614, "h": 104 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "pulse", "from": 0, "to": 4, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -30,10 +30,22 @@ export class Preloader extends Scene {
       "assets/yellowbiplane.json"
     );
     this.load.aseprite("bullet", "assets/bullet.png", "assets/bullet.json");
+
+    this.load.aseprite(
+      "cloud-0001",
+      "assets/cloud-0001.png",
+      "assets/cloud-0001.json"
+    );
+    this.load.image(
+      "cloud-0002",
+      "assets/cloud-0002.png"
+      //"assets/cloud-0002.json"
+    );
   }
 
   create() {
     this.anims.createFromAseprite("yellowbiplane");
+    this.anims.createFromAseprite("cloud-0001");
     //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
     //  For example, you can define global animations here, so we can use them in other scenes.
 

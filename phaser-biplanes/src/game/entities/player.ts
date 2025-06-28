@@ -19,10 +19,20 @@ class Player extends Plane {
     bulletGroup: Phaser.Physics.Arcade.Group
   ) {
     super(scene, x, y, color, bulletGroup);
-
   }
 
-  addKill(plane: (Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody | Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile) & Player) {
+  reset() {
+    this.setRotation(0);
+  }
+  addKill(
+    plane: (
+      | Phaser.Physics.Arcade.Body
+      | Phaser.Physics.Arcade.StaticBody
+      | Phaser.Types.Physics.Arcade.GameObjectWithBody
+      | Phaser.Tilemaps.Tile
+    ) &
+      Player
+  ) {
     this.score += 1;
     this.scene.events.emit("playerScoreUpdated", this);
   }

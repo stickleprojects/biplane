@@ -37,7 +37,6 @@ class Plane extends Phaser.GameObjects.Sprite {
 
   kill() {
     this.scene.events.emit("planeDestroyed", this);
-    super.destroy();
   }
   update(time: number, delta: number, input: Input.InputPlugin): void {
     if (!this.body) {
