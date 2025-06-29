@@ -6,6 +6,7 @@ class Player extends Plane {
   private rotate_right: Phaser.Input.Keyboard.Key;
   private firebutton: Phaser.Input.Keyboard.Key;
   private rotate_left: Phaser.Input.Keyboard.Key;
+  private bulletSound: Phaser.Sound.BaseSound;
 
   constructor(
     scene: Phaser.Scene,
@@ -17,13 +18,23 @@ class Player extends Plane {
     super(scene, x, y, color, bulletGroup);
   }
 
-
   fire() {
     // Implement firing logic here
     console.log("Firing!");
     // spawn a bullet or perform an action
 
+    if (this.bulletSound == null) {
+      this.bulletSound = this.scene.sound.add("gun1", {
+        loop: false,
+        volume: 0.5,
+      });
+    }
+    if (!this.bulletSound.isPlaying) {
+      this.bulletSound.play();
+    }
+
     const bullet = new Bullet(this, this.x, this.y);
+
     this.bulletGroup.add(bullet);
   }
   bindKeys(input: Input.InputPlugin) {

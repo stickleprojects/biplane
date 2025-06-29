@@ -47,8 +47,7 @@ class Bullet extends Phaser.GameObjects.Sprite {
       ease: "Linear",
       onUpdate: (tween, target) => {
         if (target && this.scene) {
-          this.scene.physics.world.
-            this.scene.physics.world.wrap(target, 0); // Wrap the bullet around the world bounds
+          this.scene.physics.world.wrap(target, 0); // Wrap the bullet around the world bounds
         }
       },
       onComplete: () => {

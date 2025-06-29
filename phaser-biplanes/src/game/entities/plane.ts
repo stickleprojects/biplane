@@ -75,15 +75,22 @@ class Plane extends Phaser.GameObjects.Sprite {
     body.setCollisionCategory(0); //enable collision
     body.setEnable(true); // Deactivate the body to stop physics interactions
 
-    this.anims.play({
-      key: "explosion",
-      hideOnComplete: true,
-      frameRate: 20, // Frame rate of the explosion animation
+    this.scene.sound.play("explosion");
 
-      repeat: 0, // Play the animation once 
-    }, true).once("animationcomplete", () => {
-      this.scene.events.emit("planeDestroyed", this);
-    }); // Play explosion animation
+    this.anims
+      .play(
+        {
+          key: "explosion",
+          hideOnComplete: true,
+          frameRate: 20, // Frame rate of the explosion animation
+
+          repeat: 0, // Play the animation once
+        },
+        true
+      )
+      .once("animationcomplete", () => {
+        this.scene.events.emit("planeDestroyed", this);
+      }); // Play explosion animation
   }
   update(time: number, delta: number, input: Input.InputPlugin): void {
     if (!this.body) {
