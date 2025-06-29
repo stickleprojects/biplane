@@ -37,6 +37,7 @@ export class Game extends Scene {
     }
     const y = Phaser.Math.Between(100, 400);
     console.log("Spawning NPC at y:", y);
+
     this.npc = new Player(this, 100, y, 0xff0000, this.bulletGroup);
     this.npc.name = "npc";
     this.npc.setDepth(50);
@@ -105,6 +106,7 @@ export class Game extends Scene {
       }
       this.player1.addKill(this.npc); // Add the plane to the player's kill count
       this.npc.addKill(this.player1); // Add the plane to the player's kill count
+
 
       this.npc.kill();
       this.player1.kill(); // Kill the player plane

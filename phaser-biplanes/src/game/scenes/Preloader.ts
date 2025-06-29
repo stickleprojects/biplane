@@ -23,6 +23,9 @@ export class Preloader extends Scene {
   }
 
   preload() {
+    this.load.audio("explosion", "assets/sounds/explosion.mp3");
+    this.load.audio("gun1", "assets/sounds/gun1.mp3");
+
     //  Load the assets for the game - Replace with your own assets
     this.load.aseprite(
       "yellowbiplane",

@@ -74,6 +74,7 @@ class Plane extends Phaser.GameObjects.Sprite {
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setCollisionCategory(0); //enable collision
     body.setEnable(true); // Deactivate the body to stop physics interactions
+
     this.anims.play({
       key: "explosion",
       hideOnComplete: true,
