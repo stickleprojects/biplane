@@ -45,6 +45,12 @@ class Bullet extends Phaser.GameObjects.Sprite {
       y: destinationY,
       duration: 200, // Duration in milliseconds
       ease: "Linear",
+      onUpdate: (tween, target) => {
+        if (target && this.scene) {
+          this.scene.physics.world.
+            this.scene.physics.world.wrap(target, 0); // Wrap the bullet around the world bounds
+        }
+      },
       onComplete: () => {
         this.destroy(); // Destroy the bullet after it reaches the destination
       },

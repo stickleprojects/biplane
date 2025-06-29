@@ -17,18 +17,7 @@ class Player extends Plane {
     super(scene, x, y, color, bulletGroup);
   }
 
-  addKill(
-    plane: (
-      | Phaser.Physics.Arcade.Body
-      | Phaser.Physics.Arcade.StaticBody
-      | Phaser.Types.Physics.Arcade.GameObjectWithBody
-      | Phaser.Tilemaps.Tile
-    ) &
-      Player
-  ) {
-    this.score += 1;
-    this.scene.events.emit("playerScoreUpdated", this);
-  }
+
   fire() {
     // Implement firing logic here
     console.log("Firing!");

@@ -40,6 +40,18 @@ class Plane extends Phaser.GameObjects.Sprite {
     body.setAllowGravity(false);
   }
 
+  addKill(
+    plane: (
+      | Phaser.Physics.Arcade.Body
+      | Phaser.Physics.Arcade.StaticBody
+      | Phaser.Types.Physics.Arcade.GameObjectWithBody
+      | Phaser.Tilemaps.Tile
+    ) &
+      Player
+  ) {
+    this.score += 1;
+    this.scene.events.emit("playerScoreUpdated", this);
+  }
   reset() {
     this.dying = false; // Reset dying state
     this.setRotation(0);
@@ -48,6 +60,7 @@ class Plane extends Phaser.GameObjects.Sprite {
     this.setActive(true); // Ensure NPC is active
     this.plane_speed = 0.2; // Reset speed
     this.score = 0;
+    this.scene.events.emit("playerScoreUpdated", this);
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setCollisionCategory(1); //enable collision
     body.setEnable(true); // Deactivate the body to stop physics interactions
@@ -61,7 +74,13 @@ class Plane extends Phaser.GameObjects.Sprite {
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setCollisionCategory(0); //enable collision
     body.setEnable(true); // Deactivate the body to stop physics interactions
-    this.anims.play("explosion", true).once("animationcomplete", () => {
+    this.anims.play({
+      key: "explosion",
+      hideOnComplete: true,
+      frameRate: 20, // Frame rate of the explosion animation
+
+      repeat: 0, // Play the animation once 
+    }, true).once("animationcomplete", () => {
       this.scene.events.emit("planeDestroyed", this);
     }); // Play explosion animation
   }

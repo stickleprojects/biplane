@@ -96,6 +96,7 @@ export class Game extends Scene {
     this.spawnPlayer();
 
     this.spawnNPC();
+    this.createSky();
     this.createGround();
 
     this.physics.add.collider(this.npc, this.player1, (player, npc) => {
@@ -132,6 +133,25 @@ export class Game extends Scene {
     }
   }
 
+  createSky() {
+    const sky = this.add.rectangle(512, 0, 1024, 10, 0x87ceeb);
+    this.physics.add.existing(sky);
+
+    const skyBody = sky.body as Phaser.Physics.Arcade.StaticBody;
+    skyBody.setImmovable(true);
+    skyBody.setAllowGravity(false);
+
+    this.physics.add.collider(this.player1, sky, (plane) => {
+      console.log("Player hit the sky:", plane);
+      this.npc.addKill(plane); // Add the plane to the NPC's kill count
+      this.player1.kill();
+    });
+    this.physics.add.collider(this.bulletGroup, sky, (bullet) => {
+      if (bullet instanceof Bullet) {
+        bullet.destroy(); // Destroy the bullet when it hits the sky
+      }
+    });
+  }
   createGround() {
     const ground = this.add.rectangle(512, 728, 1024, 80, 0x00ffa0);
     this.physics.add.existing(ground);
